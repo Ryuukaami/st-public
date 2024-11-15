@@ -4,7 +4,7 @@
         <div class="flex items-center">
           <div class="shrink-0 flex items-center">
                 <a href="{{ route('dashboard') }}">
-                    <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                    <img src="{{ asset('images/stream.png') }}" alt="Your Logo" {{ $attributes->merge(['class' => 'h-16 w-auto']) }}>
                 </a>
             </div>
 
@@ -12,13 +12,13 @@
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
               <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                <a href="{{ route('dashboard') }}"
-                class="{{ request()->is('dashboard') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} rounded-md px-3 py-2 text-sm font-medium"
-                aria-current="page">Dashboard</a>
+                <a href="{{ route('dashboard') }}" class="flex items-center justify-center">
+                    <img src="{{ asset('images/dashboard.png') }}" alt="Dashboard" class="h-8 w-8 hover:bg-gray-700 hover:text-white" />
+                </a>
 
-                <a href="{{ route('forum.show') }}"
-                class="{{ request()->is('forum') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }} rounded-md px-3 py-2 text-sm font-medium"
-                aria-current="page">Forums</a>
+                <a href="{{ route('forum.show') }}" class="flex items-center justify-center">
+                    <img src="{{ asset('images/st_logo.png') }}" alt="Forums" class="h-8 w-8 hover:bg-gray-700 hover:text-white" />
+                </a>
 
             </div>
           </div>
@@ -33,7 +33,7 @@
                 <button @click="isOpen = !isOpen" type="button" class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                   <span class="absolute -inset-1.5"></span>
                   <span class="sr-only">Open user menu</span>
-                  <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                  <img class="h-8 w-8 rounded-full" src="{{ asset('images/yukkuri.jpg') }}" alt="Profile Picture">
                 </button>
               </div>
 
@@ -86,7 +86,9 @@
       <div class="border-t border-gray-700 pb-3 pt-4">
         <div class="flex items-center px-5">
           <div class="shrink-0">
-            <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+            <div class="h-8 w-8 rounded-full bg-black-300 flex items-center justify-center text-white font-bold">
+                Profile
+            </div>
           </div>
           <div class="ml-3">
             <div class="text-base/5 font-medium text-white">{{ Auth::user()->name }}</div>

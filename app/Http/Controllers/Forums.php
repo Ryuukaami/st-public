@@ -19,9 +19,6 @@ class Forums extends Controller
         if ($forums->isEmpty()) {
             $message = "You can see your activities here";
         }
-
-
-
         return view('dashboard', compact('forums', 'message'));
     }
 
