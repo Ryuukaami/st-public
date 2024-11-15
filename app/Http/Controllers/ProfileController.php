@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -24,18 +25,47 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request)
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        // Validate the entire request, including file validation
+        $validatedData = $request->validate([
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            // Add other fields you want to validate here
+        ]);
+
+        if ($request->hasFile('profile_picture')) {
+            // Debugging: Check if the file is correctly uploaded
+            // Remove the dd() when debugging is complete
+            $uploadedFile = $request->file('profile_picture');
+            // dd($uploadedFile);
+
+            // Delete old photo if it exists
+            if ($user->profile_picture) {
+                Storage::disk('public')->delete($user->profile_picture);
+            }
+
+            // Store the new photo
+            $path = $uploadedFile->store('profile_picture', 'public');
+            $user->profile_picture = $path; // Save the new file path to the database
         }
 
-        $request->user()->save();
+        // Fill other user data from validated input
+        $user->fill($request->except(['profile_picture']));
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        // Reset email verification if the email has changed
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
+
+        // Save the updated user data
+        $user->save();
+
+        // Redirect with a success status
+        return redirect()->route('profile.edit')->with('status', 'profile-updated');
     }
+
 
     /**
      * Delete the user's account.
@@ -47,6 +77,11 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
+
+        // Delete profile picture if exists when deleting account
+        if ($user->profile_picture) {
+            Storage::disk('public')->delete($user->profile_picture);
+        }
 
         Auth::logout();
 
