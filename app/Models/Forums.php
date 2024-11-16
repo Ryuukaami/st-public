@@ -10,7 +10,7 @@ class Forums extends Model
 
     use HasFactory;
 
-    protected $table = 'forums'; // Specify the table name
+    protected $table = 'forums';
 
     protected $fillable = [
         'user_id',
