@@ -91,8 +91,8 @@
             </div>
           </div>
           <div class="ml-3">
-            <div class="text-base/5 font-medium text-white">{{ Auth::user()->name }}</div>
-            <div class="text-sm font-medium text-gray-400">{{ Auth::user()->email }}</div>
+            <div class="text-base/5 font-medium text-white">{{ e(Auth::user()->name) }}</div>
+            <div class="text-sm font-medium text-gray-400">{{ e(Auth::user()->email) }}</div>
           </div>
 
         </div>

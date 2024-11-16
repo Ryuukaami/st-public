@@ -25,21 +25,19 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request)
+    public function update(Request $request)
     {
         $user = $request->user();
 
-        // Validate the entire request, including file validation
+        // Validate the entire request, including the file validation
         $validatedData = $request->validate([
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            // Add other fields you want to validate here
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            // Add any other fields you need to validate here
         ]);
 
         if ($request->hasFile('profile_picture')) {
-            // Debugging: Check if the file is correctly uploaded
-            // Remove the dd() when debugging is complete
+            // Check if the file is correctly uploaded
             $uploadedFile = $request->file('profile_picture');
-            // dd($uploadedFile);
 
             // Delete old photo if it exists
             if ($user->profile_picture) {
@@ -51,7 +49,7 @@ class ProfileController extends Controller
             $user->profile_picture = $path; // Save the new file path to the database
         }
 
-        // Fill other user data from validated input
+        // Fill other user data from validated input, excluding profile_picture field
         $user->fill($request->except(['profile_picture']));
 
         // Reset email verification if the email has changed

@@ -60,10 +60,10 @@
                                                 @foreach ($forums as $post)
                                                     <div class="border p-4 rounded-lg hover:shadow-md transition">
                                                         <h3 class="text-xl font-semibold mb-2 text-gray-200">
-                                                            {{ $post->title }}
+                                                            {{ e($post->title) }}
                                                         </h3>
                                                         <div class="text-gray-200 text-sm mb-2">
-                                                            Posted by {{ $post->user->name }}
+                                                            Posted by {{ e($post->user->name) }}
                                                             {{ $post->created_at }}
                                                         </div>
                                                         <p class="text-gray-200">
