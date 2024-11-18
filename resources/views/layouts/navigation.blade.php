@@ -16,7 +16,7 @@
                     <img src="{{ asset('images/dashboard.png') }}" alt="Dashboard" class="h-8 w-8 hover:bg-gray-700 hover:text-white" />
                 </a>
 
-                <a href="{{ route('forum.show') }}" class="flex items-center justify-center">
+                <a href="{{ auth()->user()->usertype === 'admin' ? route('admin.forum') : route('forum.show') }}" class="flex items-center justify-center">
                     <img src="{{ asset('images/st_logo.png') }}" alt="Forums" class="h-8 w-8 hover:bg-gray-700 hover:text-white" />
                 </a>
 

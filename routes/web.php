@@ -5,12 +5,18 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
 
+// Public Route
 Route::get('/', function () {return view('welcome');});
 // Route::get('/', [UserController::class, 'index']);
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
+
+// Admin-only routes
+Route::get('/admin/forum', [Forums::class, 'adminForum'])->middleware(['auth', 'admin'])->name('admin.forum');
+
+
 
 // Group all authenticated routes
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -33,5 +39,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/forum/{forum}/delete', 'deletePost')->name('forum.destroy');
     });
 });
+
+
 
 require __DIR__ . '/auth.php';
